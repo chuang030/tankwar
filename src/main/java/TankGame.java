@@ -17,7 +17,8 @@ public class TankGame {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                System.out.println((char)e.getKeyCode());
+                gameClient.keyPressed(e);
+
             }
 
             @Override
