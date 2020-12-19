@@ -66,13 +66,13 @@ public class Tank {
         if (direction == Direction.LEFT_UP){
             return new ImageIcon("assets/images/itankLP.png").getImage();
         }
-        if (direction == Direction.LEFT_DW){
+        if (direction == Direction.LEFT_DOWN){
             return new ImageIcon("assets/images/itankLD.png").getImage();
         }
         if (direction == Direction.RIGHT_UP){
             return new ImageIcon("assets/images/itankRP.png").getImage();
         }
-        if (direction == Direction.RIGHT_DW){
+        if (direction == Direction.RIGHT_DOWN){
             return new ImageIcon("assets/images/itankRD.png").getImage();
         }
         return null;
@@ -95,7 +95,7 @@ public class Tank {
                 y-=speed;
                 x-=speed;
                 break;
-            case LEFT_DW:
+            case LEFT_DOWN:
                 y+=speed;
                 x-=speed;
                 break;
@@ -103,7 +103,7 @@ public class Tank {
                 y-=speed;
                 x+=speed;
                 break;
-            case RIGHT_DW:
+            case RIGHT_DOWN:
                 y+=speed;
                 x+=speed;
                 break;
