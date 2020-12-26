@@ -1,16 +1,15 @@
-package object;
+import object.GameObject;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Tank {
+public class Tank extends GameObject {
     //常數
     public final static int UP = 0;
     public final static int DOWN = 1;
     public final static int LEFT = 2;
     public final static int RIGHT = 3;
-    private int x;
-    private int y;
+
     private int speed;
     private  Direction direction;
     private boolean enemy;
@@ -22,11 +21,12 @@ public class Tank {
     }
 
 
-    public Tank(int x, int y,  Direction direction) {
-        this(x,y,direction,false);
+    public Tank(int x, int y,  Direction direction,Image[] image) {
+        this(x,y,direction,false,image);
     }
 
-    public Tank(int x, int y,  Direction direction, boolean enemy) {
+    public Tank(int x, int y,  Direction direction, boolean enemy,Image[] image) {
+        super(x, y,image);
         this.x = x;
         this.y = y;
         this.direction = direction;
@@ -147,7 +147,7 @@ public class Tank {
             detectDirection();
             move();
         }
-        g.drawImage(getImage(),x,y,null);
+        g.drawImage(image[direction.ordinal()],x,y,null);
     }
 
     public boolean isRunning(){
