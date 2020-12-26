@@ -1,14 +1,18 @@
 import object.Direction;
 import object.Tank;
+import object.Wall;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class GameClient extends JComponent{
     private int screenWidth;
     private int screenHeight;
     private Tank playerTank;
+    private ArrayList<Tank> enemyTanks = new ArrayList<>();
+    private ArrayList<Wall> walls = new ArrayList<>();
     private boolean stop;
 
 
@@ -39,7 +43,17 @@ public class GameClient extends JComponent{
     }
 
     public void init(){
-        playerTank=new Tank(100,100, Direction.UP);
+        playerTank=new Tank(360,100, Direction.UP);
+
+        for(int i=0; i<3 ; i++){
+            for(int j=0; j<4; j++){
+                enemyTanks.add(new Tank(240+j*90,280+i*90, Direction.UP,true));
+            }
+        }
+
+        walls.add(new Wall(160,200,true,15));
+        walls.add(new Wall(90,200,false,16));
+        walls.add(new Wall(650,200,false,16));
     }
 
     @Override
@@ -50,6 +64,14 @@ public class GameClient extends JComponent{
         g.fillRect(0,0,screenWidth,screenHeight);
 
         playerTank.draw(g);
+        for(Tank tank:enemyTanks){
+            tank.draw(g);
+        }
+
+        for(Wall wall:walls){
+            wall.draw(g);
+        }
+
     }
 
     public void keyPressed(KeyEvent e) {
