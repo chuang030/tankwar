@@ -13,6 +13,12 @@ public class Tank {
     private int y;
     private int speed;
     private  Direction direction;
+    //0:上 1:下 2:左 3:右
+    private boolean[] dirs = new boolean[4];
+
+    public boolean[] getDirs() {
+        return dirs;
+    }
 
 
     public Tank(int x, int y,  Direction direction) {
@@ -20,6 +26,26 @@ public class Tank {
         this.y = y;
         this.direction = direction;
         speed = 5;
+    }
+
+    public void detectDirection(){
+        if (dirs[0] && !dirs[1] && !dirs[2] && !dirs[3]){
+            direction = Direction.UP;
+        }else if (!dirs[0] && dirs[1] && !dirs[2] && !dirs[3]){
+            direction = Direction.DOWN;
+        }else if (!dirs[0] && !dirs[1] && dirs[2] && !dirs[3]){
+            direction = Direction.LEFT;
+        }else if (!dirs[0] && !dirs[1] && !dirs[2] && dirs[3]){
+            direction = Direction.RIGHT;
+        }else if (dirs[0] && !dirs[1] && dirs[2] && !dirs[3]){
+            direction = Direction.LEFT_UP;
+        }else if (!dirs[0] && dirs[1] && dirs[2] && !dirs[3]){
+            direction = Direction.LEFT_DOWN;
+        }else if (dirs[0] && !dirs[1] && !dirs[2] && dirs[3]){
+            direction = Direction.RIGHT_UP;
+        }else if (!dirs[0] && dirs[1] && !dirs[2] && dirs[3]){
+            direction = Direction.RIGHT_DOWN;
+        }
     }
 
     public int getX() {
@@ -64,13 +90,13 @@ public class Tank {
             return new ImageIcon("assets/images/itankR.png").getImage();
         }
         if (direction == Direction.LEFT_UP){
-            return new ImageIcon("assets/images/itankLP.png").getImage();
+            return new ImageIcon("assets/images/itankLU.png").getImage();
         }
         if (direction == Direction.LEFT_DOWN){
             return new ImageIcon("assets/images/itankLD.png").getImage();
         }
         if (direction == Direction.RIGHT_UP){
-            return new ImageIcon("assets/images/itankRP.png").getImage();
+            return new ImageIcon("assets/images/itankRU.png").getImage();
         }
         if (direction == Direction.RIGHT_DOWN){
             return new ImageIcon("assets/images/itankRD.png").getImage();
@@ -108,6 +134,22 @@ public class Tank {
                 x+=speed;
                 break;
         }
+    }
+    public void draw(Graphics g){
+        if(isRunning()){
+            detectDirection();
+            move();
+        }
+        g.drawImage(getImage(),x,y,null);
+    }
+
+    public boolean isRunning(){
+        for (int i = 0; i<dirs.length; i++){
+            if (dirs[i]){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

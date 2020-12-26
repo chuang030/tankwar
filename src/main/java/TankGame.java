@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 public class TankGame {
 
     public static void main(String[] args) {
-        GameClient gameClient = new GameClient(1024,600);
+        GameClient gameClient = new GameClient(1024,800);
         JFrame frame = new JFrame();
         frame.add(gameClient);
         frame.setVisible(true);
@@ -23,7 +23,7 @@ public class TankGame {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
+                gameClient.keyReleased(e);
             }
         });
     }
