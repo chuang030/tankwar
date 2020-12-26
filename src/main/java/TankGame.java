@@ -4,8 +4,10 @@ import java.awt.event.KeyEvent;
 
 public class TankGame {
 
+    private static GameClient gameClient;
+
     public static void main(String[] args) {
-        GameClient gameClient = new GameClient(800,600);
+        gameClient = new GameClient(800,600);
         JFrame frame = new JFrame();
         frame.add(gameClient);
         frame.setVisible(true);
@@ -26,5 +28,9 @@ public class TankGame {
                 gameClient.keyReleased(e);
             }
         });
+    }
+
+    public static GameClient getGameClient() {
+        return gameClient;
     }
 }

@@ -1,3 +1,5 @@
+import object.GameObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -9,6 +11,7 @@ public class GameClient extends JComponent{
     private Tank playerTank;
     private ArrayList<Tank> enemyTanks = new ArrayList<>();
     private ArrayList<Wall> walls = new ArrayList<>();
+    private ArrayList<GameObject> objects = new ArrayList<>();
     private Image backGround;
     private boolean stop;
 
@@ -54,16 +57,20 @@ public class GameClient extends JComponent{
         }
 
         playerTank=new Tank(360,100, Direction.UP,iTankImage);
+        objects.add(playerTank);
 
         for(int i=0; i<3 ; i++){
             for(int j=0; j<4; j++){
                 enemyTanks.add(new Tank(240+j*90,280+i*90, Direction.UP,true,eTankImage));
             }
         }
+        objects.addAll(enemyTanks);
 
         walls.add(new Wall(160,200,true,15,brickImage));
         walls.add(new Wall(90,200,false,16,brickImage));
         walls.add(new Wall(650,200,false,16,brickImage));
+        objects.addAll(walls);
+
     }
 
     @Override
@@ -74,15 +81,27 @@ public class GameClient extends JComponent{
         g.fillRect(0,0,screenWidth,screenHeight);
         g.drawImage(backGround,0,0,null);
 
-        playerTank.draw(g);
-        for(Tank tank:enemyTanks){
-            tank.draw(g);
+        for(GameObject object:objects){
+            object.draw(g);
         }
 
-        for(Wall wall:walls){
-            wall.draw(g);
-        }
+//        playerTank.draw(g);
+//        for(Tank tank:enemyTanks){
+//            tank.draw(g);
+//        }
+//
+//        for(Wall wall:walls){
+//            wall.draw(g);
+//        }
 
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
     }
 
     public void keyPressed(KeyEvent e) {

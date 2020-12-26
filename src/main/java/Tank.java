@@ -141,6 +141,17 @@ public class Tank extends GameObject {
                 x+=speed;
                 break;
         }
+        if(x<0){
+            x=0;
+        }else if(x>TankGame.getGameClient().getScreenWidth()-width){
+            x=TankGame.getGameClient().getScreenWidth()-width;
+        }
+
+        if(y<0){
+            y=0;
+        }else if(y>TankGame.getGameClient().getScreenHeight()-width){
+            y=TankGame.getGameClient().getScreenHeight()-height;
+        }
     }
     public void draw(Graphics g){
         if(isRunning()){
