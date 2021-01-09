@@ -4,11 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameClient extends JComponent{
     private int screenWidth;
     private int screenHeight;
     private Tank playerTank;
+
+    public static Image[] bulletImage = new Image[8];
+
     //private ArrayList<Tank> enemyTanks = new ArrayList<>();
     //private ArrayList<Wall> walls = new ArrayList<>();
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
@@ -46,6 +50,10 @@ public class GameClient extends JComponent{
         return gameObjects;
     }
 
+    public void addGameObjects(GameObject object){
+        gameObjects.add(object);
+    }
+
     public void init(){
         backGround=Tools.getImage("sand.jpg");
         Image[] brickImage={Tools.getImage("brick.png")};
@@ -58,6 +66,7 @@ public class GameClient extends JComponent{
         for (int i=0;i<iTankImage.length;i++){
             iTankImage[i] =Tools.getImage("itank"+sub[i]+".png");
             eTankImage[i] =Tools.getImage("etank"+sub[i]+".png");
+            bulletImage[i] = Tools.getImage("missile"+sub[i]+".png");
         }
 
         playerTank=new Tank(360,100, Direction.UP,iTankImage);
@@ -71,23 +80,33 @@ public class GameClient extends JComponent{
         }
         //objects.addAll(enemyTanks);
 
-        gameObjects.add(new Wall(160,200,true,15,brickImage));
-        gameObjects.add(new Wall(70,200,false,16,brickImage));
-        gameObjects.add(new Wall(700,200,false,16,brickImage));
+        gameObjects.add(new Wall(160,180,true,15,brickImage));
+        gameObjects.add(new Wall(60,200,false,16,brickImage));
+        gameObjects.add(new Wall(710,200,false,16,brickImage));
         //objects.addAll(walls);
 
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g){
         //super.paintComponent(g);
 
         g.setColor(Color.BLACK);
         g.fillRect(0,0,screenWidth,screenHeight);
         g.drawImage(backGround,0,0,null);
 
-        for(GameObject object:gameObjects){
-            object.draw(g);
+        for(GameObject gameObjects:gameObjects){
+            gameObjects.draw(g);
+        }
+
+        System.out.println(gameObjects.size());
+
+        Iterator<GameObject> iterator=gameObjects.iterator();
+
+        while(iterator.hasNext()){
+            if(!iterator.next().isAlive()){
+                iterator.remove();
+            }
         }
 
 //        playerTank.draw(g);
@@ -123,6 +142,9 @@ public class GameClient extends JComponent{
                 break;
             case KeyEvent.VK_RIGHT:
                 dirs[3]=true;
+                break;
+            case KeyEvent.VK_A:
+                playerTank.fire();
                 break;
         }
         //playerTank.move();

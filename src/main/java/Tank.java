@@ -11,8 +11,8 @@ public class Tank extends GameObject {
     public final static int RIGHT = 3;
 
     private int speed;
-    private  Direction direction;
-    private boolean enemy;
+    protected Direction direction;
+    protected boolean enemy;
     //0:上 1:下 2:左 3:右
     private boolean[] dirs = new boolean[4];
 
@@ -32,6 +32,9 @@ public class Tank extends GameObject {
         this.direction = direction;
         this.enemy=enemy;
         speed = 15;
+
+        width=(int)(width*0.8);
+        height=(int)(height*0.8);
     }
 
     public void detectDirection(){
@@ -110,6 +113,13 @@ public class Tank extends GameObject {
         }
         return null;
     }
+
+    public void fire(){
+        Bullet bullet = new Bullet(x+(width-GameClient.bulletImage[0].getWidth(null))/2,
+                y+(height-GameClient.bulletImage[0].getHeight(null))/2,direction,enemy,GameClient.bulletImage);
+        TankGame.getGameClient().addGameObjects(bullet);
+    }
+
     public void move(){
         oldX = x;
         oldY = y;
@@ -146,10 +156,6 @@ public class Tank extends GameObject {
         }
 
 
-
-
-
-
     }
 
     public boolean isCollisionBound(){
@@ -176,8 +182,11 @@ public class Tank extends GameObject {
         boolean isCollision = false;
 
         for(GameObject gameObject:TankGame.getGameClient().getGameObjects()){
+            if(gameObject instanceof Bullet){
+                continue;
+            }
             if(gameObject != this && getRectangle().intersects(gameObject.getRectangle())){
-                System.out.println("hit");
+                //System.out.println("hit");
                 x=oldX;
                 y=oldY;
                 isCollision=true;
@@ -199,6 +208,11 @@ public class Tank extends GameObject {
     }
 
     public void draw(Graphics g){
+
+        if(!alive){
+            return;
+        }
+
         if(isRunning()){
             detectDirection();
             move();

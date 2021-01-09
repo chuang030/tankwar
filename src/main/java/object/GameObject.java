@@ -10,6 +10,7 @@ public abstract class GameObject {
     protected int oldY;
     protected int width;
     protected int height;
+    protected boolean alive;
 
     protected Image[] image;
 
@@ -19,6 +20,15 @@ public abstract class GameObject {
         this.image = image;
         width = image[0].getWidth(null);
         height = image[0].getHeight(null);
+        alive = true;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     public Rectangle getRectangle() {
