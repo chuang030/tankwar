@@ -9,9 +9,9 @@ public class GameClient extends JComponent{
     private int screenWidth;
     private int screenHeight;
     private Tank playerTank;
-    private ArrayList<Tank> enemyTanks = new ArrayList<>();
-    private ArrayList<Wall> walls = new ArrayList<>();
-    private ArrayList<GameObject> objects = new ArrayList<>();
+    //private ArrayList<Tank> enemyTanks = new ArrayList<>();
+    //private ArrayList<Wall> walls = new ArrayList<>();
+    private ArrayList<GameObject> gameObjects = new ArrayList<>();
     private Image backGround;
     private boolean stop;
 
@@ -42,6 +42,10 @@ public class GameClient extends JComponent{
         
     }
 
+    public ArrayList<GameObject> getGameObjects() {
+        return gameObjects;
+    }
+
     public void init(){
         backGround=Tools.getImage("sand.jpg");
         Image[] brickImage={Tools.getImage("brick.png")};
@@ -57,19 +61,20 @@ public class GameClient extends JComponent{
         }
 
         playerTank=new Tank(360,100, Direction.UP,iTankImage);
-        objects.add(playerTank);
+        gameObjects.add(playerTank);
 
+        int space = 110;
         for(int i=0; i<3 ; i++){
             for(int j=0; j<4; j++){
-                enemyTanks.add(new Tank(240+j*90,280+i*90, Direction.UP,true,eTankImage));
+                gameObjects.add(new Tank(240+j*space,280+i*space, Direction.UP,true,eTankImage));
             }
         }
-        objects.addAll(enemyTanks);
+        //objects.addAll(enemyTanks);
 
-        walls.add(new Wall(160,200,true,15,brickImage));
-        walls.add(new Wall(90,200,false,16,brickImage));
-        walls.add(new Wall(650,200,false,16,brickImage));
-        objects.addAll(walls);
+        gameObjects.add(new Wall(160,200,true,15,brickImage));
+        gameObjects.add(new Wall(70,200,false,16,brickImage));
+        gameObjects.add(new Wall(700,200,false,16,brickImage));
+        //objects.addAll(walls);
 
     }
 
@@ -81,7 +86,7 @@ public class GameClient extends JComponent{
         g.fillRect(0,0,screenWidth,screenHeight);
         g.drawImage(backGround,0,0,null);
 
-        for(GameObject object:objects){
+        for(GameObject object:gameObjects){
             object.draw(g);
         }
 

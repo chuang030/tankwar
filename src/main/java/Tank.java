@@ -31,7 +31,7 @@ public class Tank extends GameObject {
         this.y = y;
         this.direction = direction;
         this.enemy=enemy;
-        speed = 5;
+        speed = 15;
     }
 
     public void detectDirection(){
@@ -111,6 +111,9 @@ public class Tank extends GameObject {
         return null;
     }
     public void move(){
+        oldX = x;
+        oldY = y;
+
         switch(direction){
             case UP:
                 y-=speed;
@@ -141,22 +144,65 @@ public class Tank extends GameObject {
                 x+=speed;
                 break;
         }
+
+
+
+
+
+
+    }
+
+    public boolean isCollisionBound(){
+        boolean isCollision = false;
+
         if(x<0){
             x=0;
+            isCollision=true;
         }else if(x>TankGame.getGameClient().getScreenWidth()-width){
             x=TankGame.getGameClient().getScreenWidth()-width;
         }
 
         if(y<0){
             y=0;
+            isCollision=true;
         }else if(y>TankGame.getGameClient().getScreenHeight()-width){
             y=TankGame.getGameClient().getScreenHeight()-height;
         }
+
+        return isCollision;
     }
+
+    public boolean isCollisionObject(){
+        boolean isCollision = false;
+
+        for(GameObject gameObject:TankGame.getGameClient().getGameObjects()){
+            if(gameObject != this && getRectangle().intersects(gameObject.getRectangle())){
+                System.out.println("hit");
+                x=oldX;
+                y=oldY;
+                isCollision=true;
+                break;
+            }
+        }
+
+        return isCollision;
+    }
+
+    public boolean collision(){
+        boolean isCollision = isCollisionBound();
+
+        if(!isCollision){
+            isCollision = isCollisionObject();
+        }
+
+        return isCollision;
+    }
+
     public void draw(Graphics g){
         if(isRunning()){
             detectDirection();
             move();
+            collision();
         }
         g.drawImage(image[direction.ordinal()],x,y,null);
     }
