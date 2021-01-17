@@ -10,7 +10,7 @@ public class Tank extends GameObject {
     public final static int LEFT = 2;
     public final static int RIGHT = 3;
 
-    private int speed;
+    protected int speed;
     protected Direction direction;
     protected boolean enemy;
     //0:上 1:下 2:左 3:右
@@ -21,7 +21,8 @@ public class Tank extends GameObject {
     }
 
 
-    public Tank(int x, int y,  Direction direction,Image[] image) {
+
+    public Tank(int x, int y, Direction direction, Image[] image) {
         this(x,y,direction,false,image);
     }
 
@@ -33,8 +34,11 @@ public class Tank extends GameObject {
         this.enemy=enemy;
         speed = 15;
 
-        width=(int)(width*0.8);
-        height=(int)(height*0.8);
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return new Rectangle(x+5,y+5,width-10,height-10);
     }
 
     public void detectDirection(){
@@ -166,13 +170,15 @@ public class Tank extends GameObject {
             isCollision=true;
         }else if(x>TankGame.getGameClient().getScreenWidth()-width){
             x=TankGame.getGameClient().getScreenWidth()-width;
+            isCollision=true;
         }
 
         if(y<0){
             y=0;
             isCollision=true;
-        }else if(y>TankGame.getGameClient().getScreenHeight()-width){
+        }else if(y>TankGame.getGameClient().getScreenHeight()-height){
             y=TankGame.getGameClient().getScreenHeight()-height;
+            isCollision=true;
         }
 
         return isCollision;

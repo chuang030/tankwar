@@ -6,7 +6,9 @@ public class Bullet extends Tank{
 
     public Bullet(int x, int y, Direction direction, boolean enemy, Image[] image) {
         super(x, y, direction, enemy, image);
+        speed = 30;
     }
+
 
     @Override
     public void draw(Graphics g) {
